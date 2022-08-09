@@ -1,0 +1,74 @@
+{
+  "name": "en",
+  "command": {
+    "changepass": {
+      "description": "Allows users to change their password"
+    }
+  },
+  "module": {
+    "changepass": {
+      "message": {
+        "success": "You have successfully changed your password.",
+        "error": "An error occurred while changing the password."
+      },
+      "form": {
+        "title": "Password change",
+        "label": "To change your password, please fill out the form below.",
+        "input": {
+          "password": {
+            "text": "Password:",
+            "placeholder": "Enter password:",
+            "empty": "The password cannot be empty.",
+            "invalid": "Invalid password."
+          },
+          "newpassword": {
+            "text": "New password:",
+            "placeholder": "Enter password:",
+            "empty": "The new password cannot be empty.",
+            "invalid": "The new password does not meet the conditions."
+          },
+          "equals": "The new password must be different."
+        }
+      }
+    },
+    "exit": {
+      "message": "You have left the server.",
+      "form": {
+        "title": "Exit",
+        "content": "Confirm exit.",
+        "button1": "Yes",
+        "button2": "No"
+      }
+    },
+    "login": {
+      "timeout": "The session has timed out.",
+      "message": "You have successfully logged in.",
+      "form": {
+        "title": "Login",
+        "label": "Welcome to the server! To continue, fill out the authorization form.",
+        "input": {
+          "text": "Password:",
+          "placeholder": "Enter password:",
+          "empty": "The password cannot be empty.",
+          "invalid": "Invalid password."
+        }
+      }
+    },
+    "registration": {
+      "message": {
+        "success": "You have successfully registered.",
+        "error": "An error occurred while registering."
+      },
+      "form": {
+        "title": "Registration",
+        "label": "Welcome to the server! Please complete the registration form to continue.",
+        "input": {
+          "text": "Password:",
+          "placeholder": "Enter password:",
+          "empty": "The password cannot be empty.",
+          "invalid": "The password does not match the conditions."
+        }
+      }
+    }
+  }
+}
