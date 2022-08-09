@@ -20,7 +20,7 @@ class DataManager {
     }
 
     public function register(Player $player, string $password): bool {
-        $password = password_hash($password, PASSWORD_DEFAULT);
+        $password = password_hash(strtolower($password), PASSWORD_DEFAULT);
         $event = new UserRegistrationEvent($player, $password);
 
         $event->call();
@@ -35,7 +35,7 @@ class DataManager {
     }
 
     public function setPassword(Player $player, string $password): bool {
-        $password = password_hash($password, PASSWORD_DEFAULT);
+        $password = password_hash(strtolower($password), PASSWORD_DEFAULT);
         $event = new UserChangePasswordEvent($player, $password);
 
         $event->call();
