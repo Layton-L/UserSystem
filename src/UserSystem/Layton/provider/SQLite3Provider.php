@@ -30,10 +30,9 @@ class SQLite3Provider implements Provider {
     public function register(Player $player, string $password): bool {
         $name = strtolower($player->getName());
 
-        $statement = $this->database->prepare("INSERT INTO `users` (`name`, `password`, `time`) VALUES (:name, :password, :time)");
+        $statement = $this->database->prepare("INSERT INTO `users` (`name`, `password`) VALUES (:name, :password)");
         $statement->bindValue(":name", $name);
         $statement->bindValue(":password", $password);
-        $statement->bindValue(":time", time());
         $statement->execute();
 
         return $this->database->changes() == 1;
