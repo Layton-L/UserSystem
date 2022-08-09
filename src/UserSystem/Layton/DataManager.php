@@ -20,9 +20,10 @@ class DataManager {
     }
 
     public function register(Player $player, string $password): bool {
+        $password = password_hash($password, PASSWORD_DEFAULT);
         $event = new UserRegistrationEvent($player, $password);
-        $event->call();
 
+        $event->call();
         if (!$event->isCancelled()) {
             return $this->provider->register($player, $password);
         }
@@ -34,17 +35,14 @@ class DataManager {
     }
 
     public function setPassword(Player $player, string $password): bool {
+        $password = password_hash($password, PASSWORD_DEFAULT);
         $event = new UserChangePasswordEvent($player, $password);
-        $event->call();
 
+        $event->call();
         if (!$event->isCancelled()) {
             return $this->provider->setPassword($player, $password);
         }
         return false;
-    }
-
-    public function getRegisterTime(Player $player): string {
-        return $this->provider->getRegisterTime($player);
     }
 
 }

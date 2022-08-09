@@ -16,6 +16,4 @@ interface Provider {
 
     public function setPassword(Player $player, string $password): bool;
 
-    public function getRegisterTime(Player $player): string;
-
 }

@@ -6,7 +6,6 @@ namespace UserSystem\Layton\form;
 
 use jojoe77777\FormAPI\CustomForm;
 use pocketmine\player\Player;
-use pocketmine\utils\TextFormat;
 use UserSystem\Layton\UserSystem;
 
 class RegistrationForm extends CustomForm {
@@ -16,7 +15,7 @@ class RegistrationForm extends CustomForm {
         $queryHelper = UserSystem::getInstance()->getTranslationManager()->getQueryHelper();
 
         parent::__construct(function (Player $player, array $data = null) use ($dataManager, $queryHelper) {
-            if ($data == null) {
+            if ($data === null) {
                 $player->sendForm(new ExitForm());
                 return;
             }

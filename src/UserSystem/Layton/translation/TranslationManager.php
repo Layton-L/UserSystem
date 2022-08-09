@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace UserSystem\Layton\translation;
 
-use http\Client\Curl\User;
 use UserSystem\Layton\UserSystem;
 
 class TranslationManager {

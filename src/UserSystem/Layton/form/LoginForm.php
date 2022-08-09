@@ -6,7 +6,6 @@ namespace UserSystem\Layton\form;
 
 use jojoe77777\FormAPI\CustomForm;
 use pocketmine\player\Player;
-use pocketmine\utils\TextFormat;
 use UserSystem\Layton\UserSystem;
 
 class LoginForm extends CustomForm {
@@ -29,7 +28,7 @@ class LoginForm extends CustomForm {
                 }
             }
 
-            if ($data == null) {
+            if ($data === null) {
                 $player->sendForm(new ExitForm());
                 return;
             }

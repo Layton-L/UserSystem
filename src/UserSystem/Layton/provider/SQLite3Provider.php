@@ -29,7 +29,6 @@ class SQLite3Provider implements Provider {
 
     public function register(Player $player, string $password): bool {
         $name = strtolower($player->getName());
-        $password = password_hash($password, PASSWORD_DEFAULT);
 
         $statement = $this->database->prepare("INSERT INTO `users` (`name`, `password`, `time`) VALUES (:name, :password, :time)");
         $statement->bindValue(":name", $name);
@@ -49,7 +48,6 @@ class SQLite3Provider implements Provider {
 
     public function setPassword(Player $player, string $password): bool {
         $name = strtolower($player->getName());
-        $password = password_hash($password, PASSWORD_DEFAULT);
 
         $statement = $this->database->prepare("UPDATE `users` SET `password` = :password WHERE `name` = :name");
         $statement->bindValue(":name", $name);
@@ -57,13 +55,6 @@ class SQLite3Provider implements Provider {
         $statement->execute();
 
         return $this->database->changes() == 1;
-    }
-
-    public function getRegisterTime(Player $player): string {
-        $name = strtolower($player->getName());
-
-        $result = $this->database->query("SELECT `time` FROM `users` WHERE `name` = '" . $name ."'");
-        return $result->fetchArray(SQLITE3_ASSOC)["time"];
     }
 
 }

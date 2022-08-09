@@ -7,7 +7,6 @@ namespace UserSystem\Layton;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
-use pocketmine\utils\Config;
 use UserSystem\Layton\command\ChangePasswordCommand;
 use UserSystem\Layton\event\EventHandler;
 use UserSystem\Layton\provider\SQLite3Provider;
