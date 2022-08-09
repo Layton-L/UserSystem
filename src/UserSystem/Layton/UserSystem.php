@@ -43,7 +43,7 @@ class UserSystem extends PluginBase {
     }
 
     public static function isPasswordVerify(string $password, string $hashPassword): bool {
-        return password_verify($password, $hashPassword);
+        return password_verify(strtolower($password), $hashPassword);
     }
 
     public function onLoad(): void {
