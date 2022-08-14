@@ -25,7 +25,7 @@ class EventHandler implements Listener {
         $player->teleport($player->getWorld()->getSafeSpawn($player->getPosition()));
 
         UserSystem::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($player, $queryHelper) {
-            if (!UserSystem::isLogined($player)) {
+            if ($player->isOnline() && !UserSystem::isLogined($player)) {
                 $message = $queryHelper->getTranslatedString("module.login.timeout");
                 $player->kick($message, $message);
             }
