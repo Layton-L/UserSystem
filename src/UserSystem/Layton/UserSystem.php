@@ -7,8 +7,10 @@ namespace UserSystem\Layton;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Config;
 use UserSystem\Layton\command\ChangePasswordCommand;
 use UserSystem\Layton\event\EventHandler;
+use UserSystem\Layton\provider\ConfigProvider;
 use UserSystem\Layton\provider\SQLite3Provider;
 use UserSystem\Layton\translation\TranslationManager;
 
@@ -47,7 +49,9 @@ class UserSystem extends PluginBase {
         $this->saveDefaultConfig();
 
         $provider = match ($this->getConfig()->get("provider")) {
-          default => new SQLite3Provider($this),
+            "json" => new ConfigProvider($this, Config::JSON),
+            "yaml" => new ConfigProvider($this, Config::YAML),
+            default => new SQLite3Provider($this),
         };
 
         $this->translationManager = new TranslationManager($this);

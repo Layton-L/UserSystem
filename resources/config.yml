@@ -1,4 +1,13 @@
 ---
+# sqlite / json / yaml
 provider: "sqlite3"
+
+# en / ru
 language: "en"
+
+# max tries to entry password
+max_tries: 3
+
+# max time in seconds to entry password
+entry_time: 60
 ...

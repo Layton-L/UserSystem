@@ -29,7 +29,7 @@ class EventHandler implements Listener {
                 $message = $queryHelper->getTranslatedString("module.login.timeout");
                 $player->kick($message, $message);
             }
-        }), 20 * 60);
+        }), 20 * (int) UserSystem::getInstance()->getConfig()->get("entry_time"));
 
         if (!UserSystem::getInstance()->getDataManager()->isRegistered($player)) {
             $player->sendForm(new RegistrationForm());

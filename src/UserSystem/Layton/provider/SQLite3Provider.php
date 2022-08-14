@@ -13,7 +13,7 @@ class SQLite3Provider implements Provider {
     private SQLite3 $database;
 
     public function __construct(UserSystem $plugin) {
-        $this->database = new SQLite3($plugin->getDataFolder() . "users.db");
+        $this->database = new SQLite3($plugin->getDataFolder() . "database.db");
 
         $this->database->exec(stream_get_contents($plugin->getResource("schemas/users.sql")));
         $this->database->exec("PRAGMA journal_mode=WAL;");

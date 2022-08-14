@@ -23,7 +23,7 @@ class LoginForm extends CustomForm {
             if (!isset(self::$tries[$name])) {
                 self::$tries[$name] = 0;
             } else {
-                if (self::$tries[$name] === 2) {
+                if (self::$tries[$name] === (int) UserSystem::getInstance()->getConfig()->get("max_tries")) {
                     self::$tries[$name] = 0;
                     $message = $queryHelper->getTranslatedString("module.login.timeout");
                     $player->kick($message, $message);
