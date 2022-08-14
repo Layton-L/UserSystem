@@ -6,6 +6,7 @@ namespace UserSystem\Layton\form;
 
 use jojoe77777\FormAPI\CustomForm;
 use pocketmine\player\Player;
+use UserSystem\Layton\PasswordUtils;
 use UserSystem\Layton\UserSystem;
 
 class ChangePasswordForm extends CustomForm {
@@ -20,17 +21,17 @@ class ChangePasswordForm extends CustomForm {
             $password = $data["password"];
             $newPassword = $data["new_password"];
 
-            if ($password == null) {
+            if ($password === null) {
                 $player->sendForm(new ChangePasswordForm("module.changepass.form.input.password.empty"));
                 return;
             }
 
-            if ($newPassword == null) {
+            if ($newPassword === null) {
                 $player->sendForm(new ChangePasswordForm("module.changepass.form.input.newpassword.empty"));
                 return;
             }
 
-            if (!UserSystem::isPasswordVerify($password, $dataManager->getPassword($player))) {
+            if (!PasswordUtils::verifyPassword($password, $dataManager->getPassword($player))) {
                 $player->sendForm(new ChangePasswordForm("module.changepass.form.input.password.invalid"));
                 return;
             }
@@ -40,12 +41,13 @@ class ChangePasswordForm extends CustomForm {
                 return;
             }
 
-            if ($password == $newPassword) {
+            if ($password === $newPassword) {
                 $player->sendForm(new ChangePasswordForm("module.changepass.form.input.equals"));
                 return;
             }
 
             if ($dataManager->setPassword($player, $newPassword)) {
+                PasswordUtils::addHashPassword(PasswordUtils::getHashPassword($newPassword));
                 $player->sendMessage($queryHelper->getTranslatedString("module.changepass.message.success"));
             } else {
                 $message = $queryHelper->getTranslatedString("module.changepass.message.error");

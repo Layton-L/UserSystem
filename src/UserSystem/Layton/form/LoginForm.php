@@ -6,6 +6,8 @@ namespace UserSystem\Layton\form;
 
 use jojoe77777\FormAPI\CustomForm;
 use pocketmine\player\Player;
+use UserSystem\Layton\event\UserLoginEvent;
+use UserSystem\Layton\PasswordUtils;
 use UserSystem\Layton\UserSystem;
 
 class LoginForm extends CustomForm {
@@ -21,7 +23,7 @@ class LoginForm extends CustomForm {
             if (!isset(self::$tries[$name])) {
                 self::$tries[$name] = 0;
             } else {
-                if (self::$tries[$name] == 2) {
+                if (self::$tries[$name] === 2) {
                     self::$tries[$name] = 0;
                     $message = $queryHelper->getTranslatedString("module.login.timeout");
                     $player->kick($message, $message);
@@ -34,18 +36,26 @@ class LoginForm extends CustomForm {
             }
 
             $password = $data["password"];
-            if ($password == null) {
+            if ($password === null) {
                 $player->sendForm(new LoginForm("module.login.form.input.empty"));
                 self::$tries[$name]++;
                 return;
             }
 
-            if (!UserSystem::isPasswordVerify($password, $dataManager->getPassword($player))) {
+            if (!PasswordUtils::verifyPassword($password, $dataManager->getPassword($player))) {
                 $player->sendForm(new LoginForm("module.login.form.input.invalid"));
                 self::$tries[$name]++;
                 return;
             }
 
+            $event = new UserLoginEvent($player);
+            $event->call();
+
+            if ($event->isCancelled()) {
+                $player->kick();
+            }
+
+            PasswordUtils::addHashPassword(PasswordUtils::getHashPassword($password));
             UserSystem::login($player);
             $player->sendMessage($queryHelper->getTranslatedString("module.login.message"));
         });

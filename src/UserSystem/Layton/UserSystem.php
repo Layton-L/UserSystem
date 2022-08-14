@@ -42,10 +42,6 @@ class UserSystem extends PluginBase {
         $player->setGamemode(GameMode::SURVIVAL());
     }
 
-    public static function isPasswordVerify(string $password, string $hashPassword): bool {
-        return password_verify(strtolower($password), $hashPassword);
-    }
-
     public function onLoad(): void {
         self::$instance = $this;
         $this->saveDefaultConfig();

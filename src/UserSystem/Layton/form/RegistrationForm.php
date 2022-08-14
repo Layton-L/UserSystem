@@ -6,6 +6,8 @@ namespace UserSystem\Layton\form;
 
 use jojoe77777\FormAPI\CustomForm;
 use pocketmine\player\Player;
+use UserSystem\Layton\event\UserLoginEvent;
+use UserSystem\Layton\PasswordUtils;
 use UserSystem\Layton\UserSystem;
 
 class RegistrationForm extends CustomForm {
@@ -21,7 +23,7 @@ class RegistrationForm extends CustomForm {
             }
 
             $password = $data["password"];
-            if ($password == null) {
+            if ($password === null) {
                 $player->sendForm(new RegistrationForm("module.registration.form.input.empty"));
                 return;
             }
@@ -31,7 +33,15 @@ class RegistrationForm extends CustomForm {
                 return;
             }
 
+            $event = new UserLoginEvent($player);
+            $event->call();
+
+            if ($event->isCancelled()) {
+                $player->kick();
+            }
+
             if ($dataManager->register($player, $password)) {
+                PasswordUtils::addHashPassword(PasswordUtils::getHashPassword($password));
                 UserSystem::login($player);
                 $player->sendMessage($queryHelper->getTranslatedString("module.registration.message.success"));
             } else {
