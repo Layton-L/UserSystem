@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace UserSystem\Layton\command;
 
@@ -8,7 +8,6 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use UserSystem\Layton\form\ChangePasswordForm;
-use UserSystem\Layton\UserSystem;
 
 class ChangePasswordCommand extends Command {
 
