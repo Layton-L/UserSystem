@@ -41,6 +41,13 @@ class EventHandler implements Listener {
             return;
         }
 
+        $event = new UserLoginEvent($player);
+        $event->call();
+
+        if ($event->isCancelled()) {
+            $player->kick();
+        }
+
         UserSystem::login($player);
         $player->sendMessage($queryHelper->getTranslatedString("module.login.message"));
     }
