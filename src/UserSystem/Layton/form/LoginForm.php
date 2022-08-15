@@ -14,17 +14,28 @@ class LoginForm extends CustomForm {
 
     private static array $tries = [];
 
+    public static function setTries(Player $player, int $tries): void {
+        self::$tries[strtolower($player->getName())] = $tries;
+    }
+
+    public static function getTries(Player $player): int {
+        return self::$tries[strtolower($player->getName())];
+    }
+
+    public static function hasTries(Player $player): bool {
+        return isset(self::$tries[strtolower($player->getName())]);
+    }
+
     public function __construct(string $error = null) {
         $dataManager = UserSystem::getInstance()->getDataManager();
         $queryHelper = UserSystem::getInstance()->getTranslationManager()->getQueryHelper();
 
         parent::__construct(function (Player $player, array $data = null) use ($dataManager, $queryHelper) {
-            $name = strtolower($player->getName());
-            if (!isset(self::$tries[$name])) {
-                self::$tries[$name] = 0;
+            if (!self::hasTries($player)) {
+                self::setTries($player, 0);
             } else {
-                if (self::$tries[$name] === (int) UserSystem::getInstance()->getConfig()->get("max_tries")) {
-                    self::$tries[$name] = 0;
+                if (self::getTries($player) === (int) UserSystem::getInstance()->getConfig()->get("max_tries")) {
+                    self::setTries($player, 0);
                     $message = $queryHelper->getTranslatedString("module.login.timeout");
                     $player->kick($message, $message);
                 }
@@ -38,13 +49,13 @@ class LoginForm extends CustomForm {
             $password = $data["password"];
             if ($password === null) {
                 $player->sendForm(new LoginForm("module.login.form.input.empty"));
-                self::$tries[$name]++;
+                self::setTries($player, self::getTries($player) + 1);
                 return;
             }
 
             if (!PasswordUtils::verifyPassword($password, $dataManager->getPassword($player))) {
                 $player->sendForm(new LoginForm("module.login.form.input.invalid"));
-                self::$tries[$name]++;
+                self::setTries($player, self::getTries($player) + 1);
                 return;
             }
 

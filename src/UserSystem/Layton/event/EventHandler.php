@@ -16,6 +16,16 @@ use UserSystem\Layton\UserSystem;
 
 class EventHandler implements Listener {
 
+    public function onPlayerChat(PlayerChatEvent $event): void {
+        $player = $event->getPlayer();
+
+        if (!UserSystem::isLogined($player)) {
+            $event->cancel();
+        }
+
+        $event->setMessage(PasswordUtils::checkString($event->getMessage()));
+    }
+
     public function onPlayerJoin(PlayerJoinEvent $event): void {
         $player = $event->getPlayer();
         $queryHelper = UserSystem::getInstance()->getTranslationManager()->getQueryHelper();
@@ -50,16 +60,6 @@ class EventHandler implements Listener {
 
         UserSystem::login($player);
         $player->sendMessage($queryHelper->getTranslatedString("module.login.message"));
-    }
-
-    public function onPlayerChat(PlayerChatEvent $event): void {
-        $player = $event->getPlayer();
-
-        if (!UserSystem::isLogined($player)) {
-            $event->cancel();
-        }
-
-        $event->setMessage(PasswordUtils::checkString($event->getMessage()));
     }
 
 }
