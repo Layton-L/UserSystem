@@ -1,8 +1,8 @@
 name: UserSystem
 main: UserSystem\Layton\UserSystem
-api: 4.0.0
+api: 5.0.0
 
-version: 3.0
+version: 1.0
 author: Layton
 
 permissions:
